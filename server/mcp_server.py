@@ -71,7 +71,6 @@ def enterprise_get_keyword_search(matchKeyword: str, pageIndex: int = None, page
         - pageSize: 分页结束位置 - 一页最多获取50条数据
     返回参数:
         - total: 总数 类型：int
-        - resultList: 结果列表 类型：list of dict
         - annualTurnover: 年营业额 类型：string
         - formerNames: 曾用名 类型：list of string
         - address: 注册地址 类型：string
@@ -183,18 +182,17 @@ def enterprise_get_enterprise_invest_info(keyword: str) -> dict:
       - keyword: 企业全称
 
     返回值:
-      - resultList: 对外投资结果列表
-        - addressValue: 被投资公司所属地区
-        - business: 被投资公司经营范围
-        - foundTime: 被投资公司成立日期
-        - isListed: 被投资公司上市状态
-        - legalRepresentative: 被投资公司法定代表人
-        - name: 对外投资企业名
-        - operStatus: 对外投资企业经营状态
-        - ratio: 占股比例
-        - regCapital: 被投资公司注册资本
-        - scCode: 对外投资企业统一信用编码
-        - subscriptionAmount: 投资金额信息
+    - addressValue: 被投资公司所属地区
+    - business: 被投资公司经营范围
+    - foundTime: 被投资公司成立日期
+    - isListed: 被投资公司上市状态
+    - legalRepresentative: 被投资公司法定代表人
+    - name: 对外投资企业名
+    - operStatus: 对外投资企业经营状态
+    - ratio: 占股比例
+    - regCapital: 被投资公司注册资本
+    - scCode: 对外投资企业统一信用编码
+    - subscriptionAmount: 投资金额信息
     """
     try:
         # 调用模糊搜索接口
@@ -213,15 +211,14 @@ def enterprise_get_enterprise_branch_info(keyword: str) -> dict:
       - keyword: 企业全称
 
     返回值:
-      - resultList: 对外投资结果列表
-        - addressValue: 地址信息
-        - foundTime: 成立时间
-        - legalRepresentative: 法定代表人
-        - name: 机构名称
-        - operStatus: 经营状态
-        - orgCode: 组织机构代码
-        - registrationAuthority: 登记机关
-        - socialCreditCode: 统一社会信用代码
+    - addressValue: 地址信息
+    - foundTime: 成立时间
+    - legalRepresentative: 法定代表人
+    - name: 机构名称
+    - operStatus: 经营状态
+    - orgCode: 组织机构代码
+    - registrationAuthority: 登记机关
+    - socialCreditCode: 统一社会信用代码
     """
     try:
         # 调用模糊搜索接口
@@ -240,12 +237,11 @@ def enterprise_get_enterprise_main_person_info(keyword: str) -> dict:
       - keyword: 企业全称
 
     返回值:
-      - resultList: 对外投资结果列表
-        - name: 成员名称
-        - position: 职位
-        - ratio: 持股比例
-        - relatedEnterpriseCurrentNum: 现任职企业数
-        - relatedEnterpriseHistoryNum: 曾任职企业数
+    - name: 成员名称
+    - position: 职位
+    - ratio: 持股比例
+    - relatedEnterpriseCurrentNum: 现任职企业数
+    - relatedEnterpriseHistoryNum: 曾任职企业数
     """
     try:
         # 调用模糊搜索接口
