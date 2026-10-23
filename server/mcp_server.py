@@ -10,10 +10,10 @@ import sys
 load_dotenv()
 
 description = """
-该MCP服务, 提供HANDAAS企业大数据服务, 包括企业工商信息、企业简介、企业标签、企业业务、企业控股股东信息、企业对外投资信息、企业分支机构信息、企业主要人员信息等。在调用需要企业全称的接口时，需要先调用关键词模糊查询企业接口进行补全后，再调用该接口。
+该MCP服务, 提供企业信息洞察, 包括企业工商信息、企业简介、企业标签、企业业务、企业控股股东信息、企业对外投资信息、企业分支机构信息、企业主要人员信息等。在调用需要企业全称的接口时，需要先调用关键词模糊查询企业接口进行补全后，再调用该接口。
 """
 
-mcp = FastMCP("HANDAAS企业大数据服务", instructions=description,dependencies=["python-dotenv", "requests"])
+mcp = FastMCP("企业信息洞察", instructions=description,dependencies=["python-dotenv", "requests"])
 
 INTEGRATOR_ID = os.environ.get("INTEGRATOR_ID")
 SECRET_ID = os.environ.get("SECRET_ID")
