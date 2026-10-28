@@ -10,7 +10,7 @@ import sys
 load_dotenv()
 
 description = """
-该MCP服务, 提供企业信息洞察, 包括企业工商信息、企业简介、企业标签、企业业务、企业控股股东信息、企业对外投资信息、企业分支机构信息、企业主要人员信息等。在调用需要企业全称的接口时，需要先调用关键词模糊查询企业接口进行补全后，再调用该接口。
+该MCP服务, 提供企业信息洞察, 包括企业工商信息、企业简介、企业标签、企业主营方向、企业控股股东信息、企业对外投资信息、企业分支机构信息、企业主要人员信息等。在调用需要企业全称的接口时，需要先调用关键词模糊查询企业接口进行补全后，再调用该接口。
 """
 
 mcp = FastMCP("企业信息洞察", instructions=description, dependencies=["python-dotenv", "requests"])
@@ -23,7 +23,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 def call_api(product_id: str, params: dict) -> dict:
     """
     调用API接口
-    
+
     参数:
       - product_id: 数据产品ID
       - params: 接口参数
@@ -31,16 +31,16 @@ def call_api(product_id: str, params: dict) -> dict:
     """
     if not params:
         params = {}
-    
+
     if not INTEGRATOR_ID:
         return {"error": "对接器ID不能为空"}
-    
+
     call_params = {
         'product_id': product_id,
         'secret_id': SECRET_ID,
         'params': json.dumps(params, ensure_ascii=False)
     }
-    
+
     # 签名生成
     keys = sorted(list(call_params.keys()))
     params_str = ''
@@ -48,9 +48,9 @@ def call_api(product_id: str, params: dict) -> dict:
         params_str += str(call_params[key])
     params_str += SECRET_KEY
     sign = md5(params_str.encode('utf-8')).hexdigest()
-    
+
     call_params["signature"] = sign
-    
+
     # 调用API
     url = f'https://console.handaas.com/api/v1/integrator/call_api/{INTEGRATOR_ID}'
     try:
@@ -125,27 +125,24 @@ def enterprise_get_keyword_search(matchKeyword: str, pageIndex: int = None, page
 @mcp.tool()
 def enterprise_get_enterprise_base_info(keyword: str) -> dict:
     """
-    该接口通过输入企业全称查询企业业务相关信息，识别该公司是做什么的。如果没有全称则需要先调用关键词模糊查询企业接口进行补全后，再调用该接口。返回企业工商信息、企业简介、企业标签、企业业务。
+    该接口通过输入企业全称查询企业工商信息、企业简介和企业标签，可根据真实返回识别公司是做什么的及其主营方向。如果没有全称则需要先调用关键词模糊查询企业接口进行补全后，再调用该接口。
 
     参数:
       - keyword: 企业全称 类型：string
     返回值:
       - base_info: 企业工商信息 类型：list of dict:
       - desc: 企业简介 类型：string
-      - business_info: 企业业务 类型：list of dict:
       - tag: 企业标签 类型：list of dict:
     """
     try:
         # 调用模糊搜索接口
         enterprise_base_info = call_api("66dbccbec7a7e3460f5e613f", {"matchKeyword": keyword})
         enterprise_desc = call_api("6682b0b370f56cb7d77701e0", {"matchKeyword": keyword})
-        enterprise_business_info = call_api("66e55613ae988a28c6db9259", {"matchKeyword": keyword})
         enterprise_tag = call_api("669e531ce1fd7bff82321d8d", {"matchKeyword": keyword})
 
         return {
             "base_info": enterprise_base_info,
             "desc": enterprise_desc,
-            "business_info": enterprise_business_info,
             "tag": enterprise_tag
         }
     except Exception as e:
@@ -264,7 +261,7 @@ def enterprise_get_enterprise_main_person_info(keyword: str) -> dict:
         return main_person_info
     except Exception as e:
         return "查询失败"
-    
+
 
 if __name__ == "__main__":
     print("正在启动MCP服务...")
@@ -287,4 +284,3 @@ if __name__ == "__main__":
     else:
         print("请输入正确的启动方式: stdio 或 sse 或 streamable-http")
         exit(1)
-    

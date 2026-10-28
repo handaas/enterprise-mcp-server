@@ -1,6 +1,6 @@
 # 企业信息洞察
 
-[该MCP服务提供企业工商信息、企业简介、企业标签、企业业务、企业控股股东信息、企业对外投资信息、企业分支机构信息、企业主要人员信息等基础查询功能。](https://www.handaas.com/)
+[该MCP服务提供企业工商信息、企业简介、企业标签、企业主营方向、企业控股股东信息、企业对外投资信息、企业分支机构信息、企业主要人员信息等基础查询功能。](https://www.handaas.com/)
 
 
 ## 主要功能
@@ -102,7 +102,7 @@ python server/mcp_server.py streamable-http
   "mcpServers": {
     "enterprise-mcp-server":{
       "type": "streamableHttp",
-      "url": "https://mcp.handaas.com/enterprise/enterprise_profile?token={token}"  
+      "url": "https://mcp.handaas.com/enterprise/enterprise_profile?token={token}"
       }
   }
 }
@@ -139,7 +139,7 @@ python server/mcp_server.py streamable-http
 ### 2. enterprise_get_enterprise_base_info
 **功能**: 查询企业基础信息
 
-通过输入企业全称查询企业业务相关信息，识别该公司是做什么的。
+通过输入企业全称查询企业工商信息、企业简介和企业标签，并根据真实返回识别公司是做什么的及其主营方向。
 
 **参数**:
 - `keyword` (必需): 企业全称
@@ -147,7 +147,6 @@ python server/mcp_server.py streamable-http
 **返回值**:
 - `base_info`: 企业工商信息
 - `desc`: 企业简介
-- `business_info`: 企业业务
 - `tag`: 企业标签
 
 ### 3. enterprise_get_enterprise_holder_info
@@ -242,8 +241,8 @@ python server/mcp_server.py streamable-http
 
 ### enterprise_get_enterprise_base_info (企业基础信息查询)
 1. 探迹科技是做什么的？
-2. 腾讯科技有限公司的主营业务是什么？
-3. 北京字节跳动科技有限公司的企业简介
+2. 腾讯科技有限公司的主营方向是什么？
+3. 查询北京字节跳动科技有限公司的企业简介和标签
 
 ### enterprise_get_enterprise_holder_info (企业控股股东信息)
 1. 探迹科技有哪些股东？
@@ -263,4 +262,13 @@ python server/mcp_server.py streamable-http
 ### enterprise_get_enterprise_main_person_info (企业主要人员信息)
 1. 探迹科技的主要管理人员有哪些？
 2. 腾讯的高管团队信息
-3. 字节跳动的核心人员构成 
+3. 字节跳动的核心人员构成
+
+## 测试验证
+
+```bash
+python -m py_compile server/mcp_server.py
+python -m unittest discover -s tests -v
+```
+
+当前服务包含 3 个离线单元测试，验证 Tool 清单不变、企业基础信息只调用剩余三个 Product ID，并确保已移除的商品不会重新进入运行代码或 README。
